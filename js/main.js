@@ -96,7 +96,7 @@ function do_gacha(v)
 		    $('#items').append( '<div class="item itemtype-'+r.type+' itemrare'+r.rare+'"><img src="'+ imgsrc + '"><div class="hidden desc">'+r.name+'</div><div class="star"><img src="'+'img/effect/'+r.rare+'star.png'+'"></div></div>' );
 			break;
 		case 'stigmata':
-		    $('#items').append( '<div class="item itemtype-'+r.type+' itemrare'+r.rare+'"><img src="'+ imgsrc + '"><div class="hidden desc">'+r.name+'</div><div class="star"><img src="'+'img/effect/'+r.rare+'star.png'+'"></div><div class="pos"><img src="img/effect/stig_B.png"></div></div>' );
+		    $('#items').append( '<div class="item itemtype-'+r.type+' itemrare'+r.rare+'"><img src="'+ imgsrc + '"><div class="hidden desc">'+r.name+'</div><div class="star"><img src="'+'img/effect/'+r.rare+'star.png'+'"></div><div class="pos"><img src="img/effect/stig_'+r.pos+'.png"></div></div>' );
 			break;
 		case 'material':
 		    $('#items').append( '<div class="item itemtype-'+r.type+' itemrare'+r.rare+'"><img src="'+ imgsrc + '"><div class="hidden desc">'+r.name+'</div><div class="star"><img src="'+'img/effect/'+r.rare+'star_upgraded.png'+'"></div></div>' );
