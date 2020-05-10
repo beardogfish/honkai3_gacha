@@ -2,45 +2,43 @@
 var gacha_dist = gacha_dist_normal;
 var pickup_weapon = 
 [
-    get_object_idx('5th 성유물'), 
-    get_object_idx('아이작 뉴턴 (상)'),
-    get_object_idx('아이작 뉴턴 (중)'),
-    get_object_idx('아이작 뉴턴 (하)'),
+    get_object_idx('MagStorm'), 
+    get_object_idx('Monet (T)'),
+    get_object_idx('Monet (M)'),
+    get_object_idx('Monet (B)'),
     //
-    get_object_idx('토르의 망치'),
-    get_object_idx('와호장룡'),
-    get_object_idx('영도 사쿠라 후부키'),
-    get_object_idx('티르의 잘린 팔'),
-    get_object_idx('중장 토끼 19C'),
-    get_object_idx('7th 성유물'),
-    get_object_idx('희헌원 (상)'),
-    get_object_idx('희헌원 (중)'),
-    get_object_idx('희헌원 (하)'),
-    get_object_idx('슈뢰딩거 (상)'),
-    get_object_idx('슈뢰딩거 (중)'),
-    get_object_idx('슈뢰딩거 (하)'),
-    get_object_idx('카렌 서약 (상)'),
-    get_object_idx('카렌 서약 (중)'),
-    get_object_idx('카렌 서약 (하)'),
-    get_object_idx('복희 (상)'),
-    get_object_idx('복희 (중)'),
-    get_object_idx('복희 (하)'),
+    get_object_idx('Keys of the Void'),
+    get_object_idx('5th Sacred Relic'),
+    get_object_idx('Sleeping Beauty'),
+    get_object_idx('Blood Embrace'),
+    get_object_idx('Skoll and Hati'),
+    get_object_idx('Skadi Ondurgud'),
+    get_object_idx('Schrodinger Band (T)'),
+    get_object_idx('Schrodinger Band (M)'),
+    get_object_idx('Schrodinger Band (B)'),
+    get_object_idx('Beethoven (T)'),
+    get_object_idx('Beethoven (M)'),
+    get_object_idx('Beethoven (B)'),
+    get_object_idx('Nobel (T)'),
+    get_object_idx('Nobel (M)'),
+    get_object_idx('Nobel (B)'),
+    get_object_idx('Robert Peary (T)'),
+    get_object_idx('Robert Peary (M)'),
+    get_object_idx('Robert Peary (B)'),
 ];
 var pickup_extended = 
 [
-    get_object_idx('이능 흑핵 침식'), 
-    get_object_idx('이능 흑핵 침식 조각'),
+    get_object_idx('Violet Executor'), 
+    get_object_idx('Violet Executor Fragment'),
     //
-    get_object_idx('은랑의 여명'), 
-    get_object_idx('은랑의 여명 조각'),
-    get_object_idx('은랑의 여명'), 
-    get_object_idx('은랑의 여명 조각'),
-    get_object_idx('그림자의 춤'), 
-    get_object_idx('그림자의 춤 조각'),
-    get_object_idx('발키리 스트라이크'), 
-    get_object_idx('발키리 스트라이크 조각'),
-    get_object_idx('기동 장갑 황매화'), 
-    get_object_idx('기동 장갑 황매화 조각'),
+    get_object_idx('Phantom Iron'), 
+    get_object_idx('Phantom Iron Fragment'),
+    get_object_idx('Wolf\'s Dawn'), 
+    get_object_idx('Wolf\'s Dawn Soul'),
+    get_object_idx('Umbral Rose'), 
+    get_object_idx('Umbral Rose Fragment'),
+    get_object_idx('Luna Kindred'), 
+    get_object_idx('Luna Kindred Soul'),
 ];
 
 
@@ -87,7 +85,24 @@ function do_gacha(v)
     $('#r_left').attr('class', 'resultbg r_left '+bg_cls[r.rare-1]);
 
     // add to material list
-    $('#items').append( '<div class="item itemtype-'+r.type+' itemrare'+r.rare+'"><img src="'+ imgsrc + '"><div class="hidden desc">'+r.name+'</div></div>' );
+	switch(r.type) {
+		case 'valkyrie':
+		    $('#items').append( '<div class="item itemtype-'+r.type+' itemrare'+r.rare+'"><img src="'+ imgsrc + '"><div class="hidden desc">'+r.name+'</div><div class="rank"><img src="'+'img/effect/valk'+r.rare+'.png'+'"></div></div>' );
+			break;
+		case 'valkyrie_piece':
+		    $('#items').append( '<div class="item itemtype-'+r.type+' itemrare'+r.rare+'"><img src="'+ imgsrc + '"><div class="hidden desc">'+r.name+'</div><div class="rank"><img src="'+'img/effect/valk'+r.rare+'.png'+'"></div></div>' );
+			break;
+		case 'weapon':
+		    $('#items').append( '<div class="item itemtype-'+r.type+' itemrare'+r.rare+'"><img src="'+ imgsrc + '"><div class="hidden desc">'+r.name+'</div><div class="star"><img src="'+'img/effect/'+r.rare+'star.png'+'"></div></div>' );
+			break;
+		case 'stigmata':
+		    $('#items').append( '<div class="item itemtype-'+r.type+' itemrare'+r.rare+'"><img src="'+ imgsrc + '"><div class="hidden desc">'+r.name+'</div><div class="star"><img src="'+'img/effect/'+r.rare+'star.png'+'"></div><div class="pos"><img src="img/effect/stig_B.png"></div></div>' );
+			break;
+		case 'material':
+		    $('#items').append( '<div class="item itemtype-'+r.type+' itemrare'+r.rare+'"><img src="'+ imgsrc + '"><div class="hidden desc">'+r.name+'</div><div class="star"><img src="'+'img/effect/'+r.rare+'star_upgraded.png'+'"></div></div>' );
+			break;
+		
+	}
     
     // update gacha tables
     stats[r.type][r.rare-1] += 1;
@@ -96,11 +111,14 @@ function do_gacha(v)
     updatestat();
 
     // just a simple material (right side)
-    r = gacha.gacha_material();
-    $('#pic_img_r').attr('src', 'img/'+r.img);
+    var r = gacha.gacha_material();
+    var imgsrc = 'img/'+r.img;
+    $('#pic_img_r').attr('src', imgsrc);
     $('#name_r').text(r.name);
     $('#rare_r').text(rare[r.rare-1]);
     $('#r_right').attr('class', 'resultbg r_right '+bg_cls[r.rare-1]);
+	
+	$('#items').append( '<div class="item itemtype-'+r.type+' itemrare'+r.rare+'"><img src="'+ imgsrc + '"><div class="hidden desc">'+r.name+'</div><div class="star"><img src="'+'img/effect/'+r.rare+'star_upgraded.png'+'"></div></div>' );
 }
 
 // --------------
@@ -243,9 +261,7 @@ $(function() {
         });
 
         // set gacha probability
-        // is allblue checked?
-        var is_allblue = $('#allblue').prop('checked');
-        gacha_dist = get_gacha_dist($(this).data('type'), is_allblue);
+        gacha_dist = get_gacha_dist($(this).data('type'));
 
         // recreate gacha object with given list
         gacha = Gacha(gacha_dist, pickups);
